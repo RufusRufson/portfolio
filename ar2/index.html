@@ -6,6 +6,9 @@
   </head>
   <body>
     <a-scene mindar-image="imageTargetSrc: https://rufson.com/ar2/card.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+	<a-scene mindar-image="filterMinCF:0.1; filterBeta: 10"/>
+	<a-scene mindar-image="warmupTolerance: 1"/>
+	<a-scene mindar-image="missTolerance: 1"/>
       <a-assets>
 	
 	<a-asset-item id="avatarModel" src="https://rufson.com/ar2/monkey.glb"></a-asset-item>
