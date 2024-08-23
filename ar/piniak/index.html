@@ -66,13 +66,16 @@
 
 
 <script>
-    document.getElementById('unlockAudio').addEventListener('click', function() {
-        var audio = document.getElementById('sound');
-        audio.play();
-        audio.pause();
-        console.log("Dźwięk odblokowany");
-    });
+        document.getElementById('unlockAudio').addEventListener('click', function() {
+            var audio = document.getElementById('sound');
+            audio.play();
+            audio.pause();
+            console.log("Dźwięk odblokowany");
+            this.style.display = 'none'; // Ukrywa przycisk po odblokowaniu dźwięku
+        });
 </script>
+
+	
 
 
 
