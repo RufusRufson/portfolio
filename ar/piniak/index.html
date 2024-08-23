@@ -61,7 +61,31 @@
 			
 		</a-entity>
 	</a-scene>
-	
+<script>
+        // Funkcja blokująca element
+        function blockElement() {
+            var element = document.getElementById('mytarget');
+            if (element) {
+                element.setAttribute('visible', false); // Ukrycie elementu
+                element.setAttribute('sound', 'volume: 0'); // Wyłączenie dźwięku
+            }
+        }
+
+        // Funkcja odblokowująca element
+        function unblockElement() {
+            var element = document.getElementById('mytarget');
+            if (element) {
+                element.setAttribute('visible', true); // Ujawnienie elementu
+                element.setAttribute('sound', 'volume: 1'); // Włączenie dźwięku
+            }
+        }
+
+        // Uruchomienie funkcji blokującej element po załadowaniu strony
+        window.addEventListener('load', blockElement);
+
+        // Nasłuchiwanie kliknięcia przycisku, aby odblokować element
+        document.getElementById('unlockAudio').addEventListener('click', unblockElement);
+</script>	
 	
 
 
