@@ -17,32 +17,38 @@
         }
 
         #unlockAudio {
-            position: absolute; /* Pozycjonowanie absolutne */
-            top: 50%; /* Centrowanie przycisku na środku */
+            position: absolute;
+			border-radius: 50%;			
+            top: 50%; 
             left: 50%;
-            transform: translate(-50%, -50%); /* Korekta położenia o 50% szerokości i wysokości przycisku */
-            z-index: 9999; /* Bardzo wysoka wartość, aby być pewnym, że przycisk jest na wierzchu */
+            transform: translate(-50%, -50%);
+            z-index: 9999; 
             padding: 15px 30px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+            
+			
+			
+			width: 200px; /* Szerokość przycisku */
+			height: 200px; /* Wysokość przycisku */
+			border-radius: 50%; /* Sprawia, że przycisk jest okrągły */
+			background-color: red; /* Kolor tła przycisku */
+			color: white; /* Kolor tekstu */
+			border: none; /* Brak obramowania */
+			font-size: 46px; /* Rozmiar czcionki */
+			text-align: center; /* Wyśrodkowanie tekstu */
+			line-height: 100px; /* Wysokość linii równa wysokości przycisku, aby tekst był pionowo wyśrodkowany */
+			cursor: pointer; /* Kursor zmienia się w rękę podczas najechania */
+			transition: background-color 0.3s; /* Płynna zmiana koloru tła przycisku */
+        }
+		#unlockAudio:hover {
+            background-color: #45a049; /* Kolor tła po najechaniu */
         }
     </style>
-	
-	
-	
-	
-	
-	
 	
 	
  </head>
 
 <body>
-<button id="unlockAudio">Odblokuj dźwięk</button>
+<button id="unlockAudio">SCAN</button>
 	
 	<a-scene mindar-image="imageTargetSrc: card.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" xr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" shadow="autoUpdate: true">
 		
@@ -61,33 +67,6 @@
 			
 		</a-entity>
 	</a-scene>
-<script>
-        // Funkcja blokująca element
-        function blockElement() {
-            var element = document.getElementById('mytarget');
-            if (element) {
-                element.setAttribute('visible', false); // Ukrycie elementu
-                element.setAttribute('sound', 'volume: 0'); // Wyłączenie dźwięku
-            }
-        }
-
-        // Funkcja odblokowująca element
-        function unblockElement() {
-            var element = document.getElementById('mytarget');
-            if (element) {
-                element.setAttribute('visible', true); // Ujawnienie elementu
-                element.setAttribute('sound', 'volume: 1'); // Włączenie dźwięku
-            }
-        }
-
-        // Uruchomienie funkcji blokującej element po załadowaniu strony
-        window.addEventListener('load', blockElement);
-
-        // Nasłuchiwanie kliknięcia przycisku, aby odblokować element
-        document.getElementById('unlockAudio').addEventListener('click', unblockElement);
-</script>	
-	
-
 
 <script>
         document.getElementById('unlockAudio').addEventListener('click', function() {
@@ -98,10 +77,6 @@
             this.style.display = 'none'; // Ukrywa przycisk po odblokowaniu dźwięku
         });
 </script>
-
-	
-
-
 
 </body>
   
