@@ -16,7 +16,7 @@
             background-color: #f0f0f0;
         }
 
-        #playSound {
+        #unlockAudio {
             position: absolute; /* Pozycjonowanie absolutne */
             top: 50%; /* Centrowanie przycisku na środku */
             left: 50%;
@@ -42,13 +42,13 @@
  </head>
 
 <body>
-
+<button id="unlockAudio">Odblokuj dźwięk</button>
 	
 	<a-scene mindar-image="imageTargetSrc: card.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" xr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" shadow="autoUpdate: true">
 		
 		<a-assets>
 			<a-asset-item id="test" src="pinion.glb"> </a-asset-item>
-			<audio id="sound" autoplay loop="true" src="piniacz.webm" preload="true"></audio>
+			<audio id="sound" autoplay loop="true" src="piniacz.mp3" preload="true"></audio>
 			
 		</a-assets>
 		
@@ -62,17 +62,17 @@
 		</a-entity>
 	</a-scene>
 	
-	<button id="playSound">Odtwórz dźwięk</button>
+	
 
-    <audio id="audio" src="piniacz.webm"></audio>
 
-    <script>
-        document.getElementById('playSound').addEventListener('click', function() {
-            var audio = document.getElementById('audio');
-            audio.currentTime = 0; // zaczyna od początku
-            audio.play();
-        });
-    </script>
+<script>
+    document.getElementById('unlockAudio').addEventListener('click', function() {
+        var audio = document.getElementById('sound');
+        audio.play();
+        audio.pause();
+        console.log("Dźwięk odblokowany");
+    });
+</script>
 
 
 
@@ -84,17 +84,29 @@
          document.querySelector("#sound").play();
      }
  AFRAME.registerComponent('mytarget', {
-     init: function() {
-         this.el.addEventListener('targetFound', event => {
-             console.log("target found")
-             document.querySelector("#sound").play();
-         })
-         this.el.addEventListener('targetLost', event => {
-             console.log("target lost")
-             document.querySelector("#sound").pause();
-         })
-     }
- }); 
+    init: function() {
+        this.el.addEventListener('targetFound', event => {
+            console.log("target found");
+            var audio = document.querySelector("#sound");
+            if (audio.readyState >= 2) { // Sprawdza, czy dźwięk jest gotowy do odtworzenia
+                audio.currentTime = 0; // Opcjonalnie: zacznij od początku
+                audio.play().catch(error => {
+                    console.log("Nie można odtworzyć dźwięku:", error);
+                });
+            } else {
+                console.log("Dźwięk nie jest gotowy do odtworzenia");
+            }
+        });
+
+        this.el.addEventListener('targetLost', event => {
+            console.log("target lost");
+            var audio = document.querySelector("#sound");
+            if (!audio.paused) {
+                audio.pause();
+            }
+        });
+    }
+});
 </script>
 
 </html>
