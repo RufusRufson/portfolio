@@ -1,0 +1,52 @@
+<html>
+ <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script src="js/aframe.min.js"></script>
+	<script src="js/aframe-extras.min.js"></script>
+	<script src="js/mindar-image-aframe.prod.js"></script>
+ </head>
+
+<body>
+
+	
+	<a-scene mindar-image="imageTargetSrc: card.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" xr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" shadow="autoUpdate: true">
+		
+		<a-assets>
+			<a-asset-item id="test" src="pinion.glb"> </a-asset-item>
+			<audio id="sound" autoplay loop="true" src="piniacz.webm" preload="true"></audio>
+			
+		</a-assets>
+		
+		
+		<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+		
+		
+		<a-entity id="mytarget" mytarget mindar-image-target="targetIndex: 0">
+			<a-gltf-model id="test" rotation="0 0 0 " position="0 0.25 0" scale="0.5 0.5 0.5" src="#test" shadow="receive: true" animation-mixer></a-gltf-model>
+			
+		</a-entity>
+	</a-scene>
+
+
+</body>
+  
+  
+<script>
+     const show = () => {
+         document.querySelector("#sound").play();
+     }
+ AFRAME.registerComponent('mytarget', {
+     init: function() {
+         this.el.addEventListener('targetFound', event => {
+             console.log("target found")
+             document.querySelector("#sound").play();
+         })
+         this.el.addEventListener('targetLost', event => {
+             console.log("target lost")
+             document.querySelector("#sound").pause();
+         })
+     }
+ }); 
+</script>
+
+</html>
