@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script src="js/aframe.min.js"></script>
+	<script src="js/aframe-extras.min.js"></script>
+	<script src="js/mindar-image-aframe.prod.js"></script>
+	
+	
+	
+<script>
+      document.addEventListener("DOMContentLoaded", function() {
+	const sceneEl = document.querySelector('a-scene');
+	let arSystem;
+	sceneEl.addEventListener('loaded', function () {
+	  arSystem = sceneEl.systems["mindar-image-system"];
+	});
+	
+	var audio = document.getElementById('sound');
+	const exampleTarget = document.querySelector('#example-target');
+	const examplePlane = document.querySelector('#example-plane');
+	
+	// start button that unlocks audio on iphone 
+	const startButton = document.querySelector("#example-start-button");
+	
+	startButton.addEventListener('click', () => {
+	  console.log("start");
+	  audio.play();
+      audio.pause();
+      console.log("Dźwięk odblokowany");
+	  arSystem.start(); // start AR
+		startButton.style.display = 'none';
+			let elem = document.documentElement;
+
+				if (elem.requestFullscreen) {
+					elem.requestFullscreen();
+				} else if (elem.mozRequestFullScreen) { // Firefox
+							elem.mozRequestFullScreen();
+				} else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+							elem.webkitRequestFullscreen();
+				} else if (elem.msRequestFullscreen) { // IE/Edge
+							elem.msRequestFullscreen();
+			}
+			
+			// Blokada orientacji ekranu
+				if (screen.orientation && screen.orientation.lock) {
+				screen.orientation.lock('portrait').catch(function(error) {
+				console.error('Blokada orientacji ekranu nie powiodła się:', error);
+        });
+    } else {
+        console.warn('API blokady orientacji ekranu nie jest wspierane w tej przeglądarce.');
+    }
+
+		
+	});
+	// arReady event triggered when ready
+	sceneEl.addEventListener("arReady", (event) => {
+	  // console.log("MindAR is ready")
+	});
+	// arError event triggered when something went wrong. Mostly browser compatbility issue
+	sceneEl.addEventListener("arError", (event) => {
+	  // console.log("MindAR failed to start")
+	});
+	// detect target found
+	exampleTarget.addEventListener("targetFound", event => {
+	  console.log("target found");
+	  audio.play();
+	});
+	// detect target lost
+	exampleTarget.addEventListener("targetLost", event => {
+	  console.log("target lost");
+	  audio.pause();
+	});
+	// detect click event
+	examplePlane.addEventListener("click", event => {
+	  console.log("plane click");
+		
+	});
+      });
+</script>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+        }
+
+        #example-start-button {
+            position: absolute;
+			border-radius: 50%;			
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; 
+            padding: 15px 30px;
+            
+			
+			
+			width: 200px; /* Szerokość przycisku */
+			height: 200px; /* Wysokość przycisku */
+			border-radius: 50%; /* Sprawia, że przycisk jest okrągły */
+			background-color: red; /* Kolor tła przycisku */
+			color: white; /* Kolor tekstu */
+			border: none; /* Brak obramowania */
+			font-size: 46px; /* Rozmiar czcionki */
+			text-align: center; /* Wyśrodkowanie tekstu */
+			line-height: 100px; /* Wysokość linii równa wysokości przycisku, aby tekst był pionowo wyśrodkowany */
+			cursor: pointer; /* Kursor zmienia się w rękę podczas najechania */
+			transition: background-color 0.3s; /* Płynna zmiana koloru tła przycisku */
+        }
+		#example-start-button:hover {
+            background-color: #45a049; /* Kolor tła po najechaniu */
+        }
+</style>
+</head>
+ <body>
+  
+	  <button id="example-start-button">SCAN</button>
+ 
+	
+<audio id="sound" autoplay loop="true" src="piniacz.mp3" preload="true"></audio>
+	
+	
+	
+<a-scene mindar-image="imageTargetSrc: card.mind; autoStart: false;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" xr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    
+	
+		<a-assets>
+			<a-asset-item id="test" src="pinion.glb"> </a-asset-item>
+		</a-assets>
+	
+	<a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
+
+  
+	
+	<a-entity id="example-target" mindar-image-target="targetIndex: 0">
+	<a-gltf-model id="example-plane" class="clickable" rotation="0 0 0 " position="0 0.25 0" scale="0.5 0.5 0.5" src="#test" shadow="receive: true" animation-mixer></a-gltf-model>
+      
+	  
+	  </a-entity>
+</a-scene>
+	
+	
+	
+  </body>
+</html>
