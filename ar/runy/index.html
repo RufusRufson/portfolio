@@ -118,18 +118,18 @@
 </head>
  <body>
   
-	  <button id="example-start-button">SCAN</button>
+	  <button id="example-start-button">SCAN X</button>
  
 	
-<audio id="sound" autoplay loop="true" src="piniacz.mp3" preload="true"></audio>
+<audio id="sound" autoplay loop="true" src="x.mp3" preload="true"></audio>
 	
 	
 	
-<a-scene mindar-image="imageTargetSrc: card.mind; autoStart: false;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" xr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+<a-scene mindar-image="imageTargetSrc: x.mind; autoStart: false;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" xr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
     
 	
 		<a-assets>
-			<a-asset-item id="test" src="pinion.glb"> </a-asset-item>
+			<a-asset-item id="test" src="x.glb"> </a-asset-item>
 		</a-assets>
 	
 	<a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
@@ -137,7 +137,7 @@
   
 	
 	<a-entity id="example-target" mindar-image-target="targetIndex: 0">
-	<a-gltf-model id="example-plane" class="clickable" rotation="0 0 0 " position="0 0.25 0" scale="0.5 0.5 0.5" src="#test" shadow="receive: true" animation-mixer></a-gltf-model>
+	<a-gltf-model id="example-plane" class="clickable" rotation="0 0 0 " position="0 0.25 0" scale="0.4 0.4 0.4" src="#test" shadow="receive: true" animation-mixer></a-gltf-model>
       
 	  
 	  </a-entity>
