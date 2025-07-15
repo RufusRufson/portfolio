@@ -6,19 +6,34 @@
   <style>
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
+    #dropzone {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border: 2px dashed #aaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-family: sans-serif;
+      font-size: 24px;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
+  <div id="dropzone">Przeciągnij tutaj plik MP4</div>
+
   <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
   <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
 
   <script>
-    // --- SCENA, KAMERA, RENDERER ---
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x222222);
+    let video, videoTexture;
 
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
-    camera.position.set(0, 3, 20);
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x111111);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 5, 20);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -28,76 +43,101 @@
     controls.target.set(0, 3, 0);
     controls.update();
 
-    // --- ŚWIATŁO ---
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(10, 20, 10);
+    const light = new THREE.HemisphereLight(0xffffff, 0x222222, 1.2);
     scene.add(light);
 
-    // --- PARAMETRY EKRANU ---
-    const width = 25; // metry
-    const height = 6;  // metry
-    const radius = 20; // promień łuku
-    const segmentsW = 100;
-    const segmentsH = 10;
+    // EKRAN
+    const width = 25;
+    const height = 6;
+    const geometry = new THREE.PlaneGeometry(width, height, 100, 10);
 
-    // --- GEOMETRIA EKRANU ---
-    const geometry = new THREE.PlaneGeometry(width, height, segmentsW, segmentsH);
-
-    // Zakrzywienie wzdłuż osi X
+    // Zakrzywienie ekranu
     for (let i = 0; i < geometry.attributes.position.count; i++) {
-      const pos = geometry.attributes.position;
-      const x = pos.getX(i);
-      const z = -Math.sin((x / width) * Math.PI) * 5; // 5m głębokości łuku
-      pos.setZ(i, z);
+      const x = geometry.attributes.position.getX(i);
+      const z = -Math.sin((x / width) * Math.PI) * 4; // głębokość zakrzywienia
+      geometry.attributes.position.setZ(i, z);
     }
-
     geometry.computeVertexNormals();
 
-    // --- MATERIAŁ Z WIDEO (placeholder na start) ---
-    const video = document.createElement('video');
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-    video.style.display = "none";
+    const dummyMaterial = new THREE.MeshBasicMaterial({ color: 0x444444, wireframe: true });
+    const screenMesh = new THREE.Mesh(geometry, dummyMaterial);
+    screenMesh.rotation.x = -Math.PI / 2;
+    scene.add(screenMesh);
 
-    const texture = new THREE.VideoTexture(video);
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.format = THREE.RGBFormat;
+    // PŁYTA PODŁOGI (opcjonalnie)
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(50, 50),
+      new THREE.MeshPhongMaterial({ color: 0x222222, side: THREE.DoubleSide })
+    );
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = 0;
+    scene.add(floor);
 
-    const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
-    const screen = new THREE.Mesh(geometry, material);
-    screen.rotation.x = -Math.PI / 2; // na podłodze
-    scene.add(screen);
+    // WIDEO
+    function handleVideo(file) {
+      const url = URL.createObjectURL(file);
+      if (video) video.remove();
 
-    // --- RENDER LOOP ---
-    function animate() {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
+      video = document.createElement('video');
+      video.src = url;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.autoplay = true;
+      video.crossOrigin = 'anonymous';
+      video.style.display = "none";
+      document.body.appendChild(video);
+
+      video.play().then(() => {
+        videoTexture = new THREE.VideoTexture(video);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+        videoTexture.format = THREE.RGBFormat;
+
+        screenMesh.material = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.DoubleSide });
+      }).catch(err => {
+        alert("Błąd odtwarzania wideo: " + err.message);
+        console.error(err);
+      });
     }
-    animate();
 
-    // --- OBSŁUGA PRZECIĄGANIA PLIKU MP4 ---
-    window.addEventListener('dragover', e => e.preventDefault());
-    window.addEventListener('drop', e => {
+    // OBSŁUGA PRZECIĄGANIA
+    const dropzone = document.getElementById('dropzone');
+
+    window.addEventListener('dragover', (e) => {
       e.preventDefault();
+      dropzone.style.borderColor = '#00ff00';
+    });
+
+    window.addEventListener('dragleave', () => {
+      dropzone.style.borderColor = '#aaa';
+    });
+
+    window.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.style.display = 'none';
+
       const file = e.dataTransfer.files[0];
       if (file && file.type === 'video/mp4') {
-        const url = URL.createObjectURL(file);
-        video.src = url;
-        video.play();
+        handleVideo(file);
       } else {
-        alert("Proszę przeciągnąć plik MP4.");
+        alert("Przeciągnij poprawny plik .mp4");
       }
     });
 
-    // --- RESPONSYWNOŚĆ ---
+    // RESPONSYWNOŚĆ
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
+
+    // PĘTLA
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
   </script>
 </body>
 </html>
-
