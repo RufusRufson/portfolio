@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>XR Cyber Dual Terminal Art v4</title>
+<style>
+html, body {
+    margin:0;
+    padding:0;
+    background:black;
+    font-family:Consolas, monospace;
+    font-size:13px;
+    height:100%;
+    overflow:hidden;
+}
+::-webkit-scrollbar { display: none; }
+body { scrollbar-width: none; }
+
+#container { display:flex; width:100%; height:100%; }
+.terminal {
+    width:50%;
+    white-space:pre-wrap;
+    padding:10px;
+    color:#00ff66;
+    overflow-y:auto;
+    position:relative;
+}
+.gray{color:#555555}
+</style>
+</head>
+<body>
+
+<div id="container">
+    <div id="left" class="terminal"></div>
+    <div id="right" class="terminal"></div>
+</div>
+
+<script>
+/* =================== LEWY TERMINAL - prawie tylko kod i UKRYTE PRZESTRZENIE =================== */
+const FULL_DATA_LEFT=[
+{line:"// --- GDSCRIPT / GODOT ---",color:"#00ff66"},
+{line:"extends Node3D",color:"#00ff66"},
+{line:"@export var speed: float = 3.14",color:"#00ff66"},
+{line:"@export var transform_matrix: Basis",color:"#00ff66"},
+{line:"func _process(delta):",color:"#00ff66"},
+{line:"    var t = Time.get_ticks_msec()*0.001",color:"#00ff66"},
+{line:"    global_transform.origin += Vector3(sin(t*speed),0,cos(t*speed))*delta",color:"#00ff66"},
+{line:"func inverse_matrix(m:Basis)->Basis:",color:"#00ff66"},
+{line:"    return m.inverse()",color:"#00ff66"},
+{line:"func soft_body_update(node:Node3D):",color:"#00ff66"},
+{line:"    node.apply_impulse(Vector3.UP*0.1)",color:"#00ff66"},
+{line:"shader_type spatial;",color:"#00ff66"},
+{line:"uniform float time;",color:"#00ff66"},
+{line:"uniform vec3 color_a;",color:"#00ff66"},
+{line:"uniform vec3 color_b;",color:"#00ff66"},
+{line:"void fragment(){ALBEDO=mix(color_a,color_b,sin(time*6.28));}",color:"#00ff66"},
+{line:"void vertex(){VERTEX.xyz+=sin(TIME)*0.01;}",color:"#00ff66"},
+{line:"var mesh=MeshInstance.new()",color:"#00ff66"},
+{line:"XRNode3D.position+=Vector3(0,1,0)",color:"#00ff66"},
+{line:"// Bałtyk",color:"#00ff66"},
+{line:"// Spektralne modele fal (Fourier/FFT)",color:"#00ff66"},
+{line:"// EN-57 pociąg, szyny, jazda, podróż - metaforycznie",color:"#00ff66"},
+{line:" UKRYTE PRZESTRZENIE",color:"red"},
+{line:" UKRYTE PRZESTRZENIE",color:"green"},
+{line:" UKRYTE PRZESTRZENIE",color:"blue"},
+{line:" UKRYTE PRZESTRZENIE",color:"red"},
+{line:" UKRYTE PRZESTRZENIE",color:"green"},
+{line:" UKRYTE PRZESTRZENIE",color:"blue"}
+];
+
+/* =================== PRAWY TERMINAL - mieszanka danych i komentarzy =================== */
+const COMMENTS=[
+"// percepcja jest subiektywna","// świat jest zbiorem punktów","// kolor jest emocją","// przestrzeń to metafora",
+"// czas jest funkcją umysłu","// światło kształtuje rzeczywistość","// materia = energia","// każda linia to decyzja",
+"// shader życia","// glitch to filozofia","// ciało i umysł = kod","// estetyka w cyfrowym świecie",
+"// informacja jako sztuka","// błąd = piękno","// rzeczywistość jest względna","// każda piksela to myśl",
+"// cyfrowa pamięć","// narracja proceduralna","// kinestetyka w akcji"
+];
+
+const FULL_DATA_RIGHT=[
+{line:"// XR MODULE",color:"#00ff66"},
+{line:"// NormalMaps",color:"#00ff66"},
+{line:"// Shading",color:"#00ff66"},
+{line:"// Shadows",color:"#00ff66"},
+{line:"// ON",color:"#00ff66"},
+{line:"// OFF",color:"#00ff66"},
+{line:"// RGB",color:"#00ff66"},
+{line:"// 72HZ",color:"#00ff66"},
+{line:"// FOV",color:"#00ff66"},
+{line:"// Skanowanie",color:"#00ff66"},
+{line:"// 3D",color:"#00ff66"},
+{line:"// Mural",color:"#00ff66"},
+{line:"// Graffiti",color:"#00ff66"},
+{line:"// Obraz",color:"#00ff66"},
+{line:"// Mgła",color:"#00ff66"},
+{line:"// Las",color:"#00ff66"},
+{line:"// Plamy",color:"#00ff66"},
+{line:"// Ból",color:"#00ff66"},
+{line:"Reality is just a point of view. – Philip K. Dick",color:"#00ff66"},
+{line:"Light Flow",color:"#00ff66"},
+{line:"Color Drift",color:"#00ff66"},
+{line:"Particle Stream",color:"#00ff66"},
+{line:"Glitch Art",color:"#00ff66"},
+{line:"Neon Trail",color:"#00ff66"},
+{line:"Procedural Canvas",color:"#00ff66"},
+{line:"VR Brush",color:"#00ff66"},
+{line:"Augmented Vision",color:"#00ff66"},
+{line:"Digital Aura",color:"#00ff66"},
+{line:"Shader Flow",color:"#00ff66"},
+{line:"Hybrid Space",color:"#00ff66"},
+{line:"Perception Mesh",color:"#00ff66"},
+{line:"Cognitive Loop",color:"#00ff66"},
+{line:"Feedback Loop",color:"#00ff66"},
+{line:"Luminescence",color:"#00ff66"},
+{line:"Specular Shift",color:"#00ff66"},
+{line:"Depth Map",color:"#00ff66"},
+{line:"Volumetric Fog",color:"#00ff66"},
+{line:"XR Panorama",color:"#00ff66"},
+{line:"Synthetic Texture",color:"#00ff66"},
+{line:"Haptic Feedback",color:"#00ff66"},
+{line:"Emotion Mapping",color:"#00ff66"},
+{line:"Cinematic Scan",color:"#00ff66"},
+{line:"Phantom Light",color:"#00ff66"},
+{line:"Spatial Echo",color:"#00ff66"},
+{line:"Neural Canvas",color:"#00ff66"},
+{line:"Temporal Ripple",color:"#00ff66"},
+{line:"Optical Flow",color:"#00ff66"},
+{line:"MetaGraffiti",color:"#00ff66"},
+{line:"WIRTUALNE KOTWICE",color:"#00ff66"},
+{line:"spatial anchors",color:"#00ff66"},
+{line:"tracking",color:"#00ff66"},
+{line:"immersja",color:"#00ff66"},
+{line:"stereoskopia",color:"#00ff66"},
+{line:"kinestetyka",color:"#00ff66"},
+{line:"ciało",color:"#00ff66"},
+{line:"dźwięk",color:"#00ff66"},
+{line:"muzyka",color:"#00ff66"},
+{line:"przestrzeń",color:"#00ff66"},
+{line:"mediowana rzeczywistość",color:"#00ff66"},
+{line:"analog",color:"#00ff66"},
+{line:"digital",color:"#00ff66"},
+{line:" UKRYTE PRZESTRZENIE",color:"red"},
+{line:" UKRYTE PRZESTRZENIE",color:"green"},
+{line:" UKRYTE PRZESTRZENIE",color:"blue"},
+{line:" UKRYTE PRZESTRZENIE",color:"red"},
+{line:" UKRYTE PRZESTRZENIE",color:"green"},
+{line:" UKRYTE PRZESTRZENIE",color:"blue"}
+];
+
+/* ==================== TERMINALE ==================== */
+const left = document.getElementById("left");
+const right = document.getElementById("right");
+
+let leftIndex={line:0,char:0};
+let rightIndex={line:0,char:0};
+let linesLeft=0, linesRight=0;
+
+/* ==================== PISANIE ==================== */
+function typeChar(term, lines, indexObj, side){
+    const lineObj = lines[indexObj.line];
+    if(!lineObj){
+        indexObj.line=0; indexObj.char=0;
+        return setTimeout(()=>typeChar(term,lines,indexObj,side),10);
+    }
+
+    if(lineObj.line.includes("UKRYTE PRZESTRZENIE")){
+        const span=document.createElement("span");
+        span.textContent=lineObj.line+"\n";
+        span.style.color=lineObj.color;
+        term.appendChild(span);
+        indexObj.line++;
+        indexObj.char=0;
+        if(side==="left") linesLeft++; else linesRight++;
+    } else {
+        // synchronizacja
+        if(side==="right" && linesRight - linesLeft > 10){
+            setTimeout(()=>typeChar(term,lines,indexObj,side),5);
+            return;
+        }
+        if(side==="left" && linesLeft - linesRight > 10){
+            setTimeout(()=>typeChar(term,lines,indexObj,side),5);
+            return;
+        }
+
+        const span = document.createElement("span");
+        span.textContent = lineObj.line[indexObj.char] || "";
+        span.style.color = lineObj.color;
+        term.appendChild(span);
+        indexObj.char++;
+
+        if(indexObj.char>=lineObj.line.length){
+            // dodaj komentarz po prawej
+            if(side==="right"){
+                const comment = COMMENTS[Math.floor(Math.random()*COMMENTS.length)];
+                const spanComment = document.createElement("span");
+                spanComment.textContent= " "+comment+"\n";
+                spanComment.className="gray";
+                term.appendChild(spanComment);
+            } else {
+                const br = document.createElement("span");
+                br.textContent="\n";
+                term.appendChild(br);
+            }
+
+            indexObj.char=0;
+            indexObj.line++;
+            if(side==="left") linesLeft++; else linesRight++;
+        }
+    }
+
+    // limit pamięci
+    while(term.childNodes.length>700){
+        term.removeChild(term.firstChild);
+    }
+
+    term.scrollTop = term.scrollHeight;
+
+    const speed = side==="left"?Math.random()*8+2:Math.random()*7+2;
+    setTimeout(()=>typeChar(term,lines,indexObj,side), speed);
+}
+
+/* ==================== START ==================== */
+typeChar(left,FULL_DATA_LEFT,leftIndex,"left");
+typeChar(right,FULL_DATA_RIGHT,rightIndex,"right");
+
+</script>
+</body>
+</html>
