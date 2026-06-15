@@ -1,0 +1,23 @@
+{
+  "type": "PLANAR",
+  "properties": {
+    "top": 0,
+    "left": 0,
+    "width": 1125,
+    "height": 1500,
+    "isRotated": false,
+    "originalWidth": 1125,
+    "originalHeight": 1500
+  },
+  "imagePath": "image-targets/baseszwed_luminance.jpg",
+  "metadata": null,
+  "name": "baseszwed",
+  "resources": {
+    "originalImage": "baseszwed_original.jpg",
+    "croppedImage": "baseszwed_cropped.jpg",
+    "thumbnailImage": "baseszwed_thumbnail.jpg",
+    "luminanceImage": "baseszwed_luminance.jpg"
+  },
+  "created": 1781525181141,
+  "updated": 1781525218773
+}
