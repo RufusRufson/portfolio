@@ -1,0 +1,23 @@
+{
+  "type": "PLANAR",
+  "properties": {
+    "top": 288,
+    "left": 53,
+    "width": 912,
+    "height": 1216,
+    "isRotated": false,
+    "originalWidth": 1000,
+    "originalHeight": 1822
+  },
+  "imagePath": "image-targets/nosferatugate_luminance.jpg",
+  "metadata": null,
+  "name": "nosferatugate",
+  "resources": {
+    "originalImage": "nosferatugate_original.jpg",
+    "croppedImage": "nosferatugate_cropped.jpg",
+    "thumbnailImage": "nosferatugate_thumbnail.jpg",
+    "luminanceImage": "nosferatugate_luminance.jpg"
+  },
+  "created": 1782833733354,
+  "updated": 1782833801028
+}
