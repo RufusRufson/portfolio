@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RoboEvoRevoLucion // Autonomous Interface</title>
+
+<style>
+
+html,body{
+    margin:0;
+    padding:0;
+    background:#000;
+    font-family:Consolas, monospace;
+    height:100%;
+    overflow:hidden;
+}
+
+::-webkit-scrollbar{
+    display:none;
+}
+
+body{
+    scrollbar-width:none;
+}
+
+
+#container{
+    display:flex;
+    width:100%;
+    height:100%;
+}
+
+
+.terminal{
+
+    white-space:pre-wrap;
+    padding:10px;
+    overflow-y:auto;
+    position:relative;
+
+}
+
+
+/* PRIMARY SYSTEM DISPLAY */
+
+#left{
+
+    width:50%;
+    font-size:34px;
+    color:#00ff66;
+
+}
+
+
+/* SECONDARY DATA DISPLAY */
+
+#right{
+
+    width:50%;
+    font-size:19px;
+    color:#00ff66;
+
+}
+
+
+.gray{
+
+    color:#555;
+
+}
+
+
+.red{
+
+    color:red;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div id="container">
+
+<div id="left" class="terminal"></div>
+
+<div id="right" class="terminal"></div>
+
+</div>
+
+
+<script>
+
+
+/*
+
+=================================================
+
+ROBOEVOREVOLUCION
+
+AUTONOMOUS RECONNAISSANCE UNIT
+
+CORE INTERFACE
+
+=================================================
+
+*/
+
+
+/*
+
+LEFT TERMINAL
+
+OBJECT RECONSTRUCTION SYSTEM
+
+*/
+
+
+const FULL_DATA_LEFT=[
+
+{line:"// ROBOEVOREVOLUCION CORE SYSTEM",color:"#00ff66"},
+{line:"// UNIT TYPE : AUTONOMOUS SYNTHETIC ENTITY",color:"#00ff66"},
+{line:"// DESIGNATION : REV-01",color:"#00ff66"},
+{line:"// STATUS : ACTIVE",color:"#00ff66"},
+{line:"// LOCATION : UNKNOWN",color:"#00ff66"},
+
+
+{line:"BOOT_SEQUENCE ........ COMPLETE",color:"#00ff66"},
+{line:"MEMORY CORE .......... ONLINE",color:"#00ff66"},
+{line:"NEURAL PROCESSOR ..... ONLINE",color:"#00ff66"},
+{line:"SENSOR NETWORK ....... ONLINE",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"INITIALIZING ENVIRONMENT SCAN",color:"#00ff66"},
+{line:"",color:"#00ff66"},
+
+
+{line:"LIDAR ARRAY : ACTIVE",color:"#00ff66"},
+{line:"DEPTH CAMERA : ACTIVE",color:"#00ff66"},
+{line:"THERMAL SENSOR : ACTIVE",color:"#00ff66"},
+{line:"SPECTRAL SENSOR : ACTIVE",color:"#00ff66"},
+
+
+{line:"POINT CLOUD GENERATION",color:"#00ff66"},
+{line:"SURFACE MAPPING",color:"#00ff66"},
+{line:"GEOMETRY EXTRACTION",color:"#00ff66"},
+{line:"OBJECT RECONSTRUCTION",color:"#00ff66"},
+
+
+{line:"MATERIAL ANALYSIS",color:"#00ff66"},
+{line:"COMPOSITE STRUCTURE DETECTED",color:"#00ff66"},
+{line:"METALLIC COMPONENT IDENTIFIED",color:"#00ff66"},
+{line:"POLYMER SIGNATURE FOUND",color:"#00ff66"},
+
+
+{line:"MOLECULAR PATTERN SCANNING",color:"#00ff66"},
+{line:"DENSITY CALCULATION",color:"#00ff66"},
+{line:"SURFACE HARDNESS ESTIMATION",color:"#00ff66"},
+
+
+{line:"SPATIAL GRID BUILDING",color:"#00ff66"},
+{line:"VOXEL MATRIX UPDATED",color:"#00ff66"},
+{line:"3D MODEL SYNCHRONIZATION",color:"#00ff66"},
+
+
+{line:"ANOMALY DETECTION ACTIVE",color:"#00ff66"},
+{line:"UNKNOWN STRUCTURE ANALYSIS",color:"#00ff66"},
+
+
+{line:"RoboEvoRevoLucion",color:"red"},
+{line:"RoboEvoRevoLucion",color:"green"},
+{line:"RoboEvoRevoLucion",color:"blue"},
+
+
+{line:"AUTONOMOUS MODE ENABLED",color:"red"},
+{line:"AUTONOMOUS MODE ENABLED",color:"green"},
+{line:"AUTONOMOUS MODE ENABLED",color:"blue"}
+
+];
+/*
+=================================================
+
+LEFT TERMINAL EXTENDED DATA
+
+ADVANCED MATERIAL / STRUCTURE ANALYSIS
+
+=================================================
+*/
+
+
+const ADVANCED_SCAN_DATA=[
+
+{line:"",color:"#00ff66"},
+
+{line:"ENVIRONMENTAL RECONSTRUCTION MODULE",color:"#00ff66"},
+{line:"--------------------------------",color:"#00ff66"},
+
+
+{line:"SCAN RANGE : EXTENDED",color:"#00ff66"},
+{line:"OPTICAL RESOLUTION : HIGH",color:"#00ff66"},
+{line:"DEPTH ACCURACY : 99.4%",color:"#00ff66"},
+{line:"POINT CLOUD STABILITY : LOCKED",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"OBJECT IDENTIFICATION PROCESS",color:"#00ff66"},
+
+
+{line:"FORM ANALYSIS ........ RUNNING",color:"#00ff66"},
+{line:"EDGE DETECTION ....... COMPLETE",color:"#00ff66"},
+{line:"SYMMETRY CHECK ....... COMPLETE",color:"#00ff66"},
+{line:"PATTERN MATCHING ..... ACTIVE",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"MATERIAL DATABASE QUERY",color:"#00ff66"},
+
+
+{line:"ALUMINUM ALLOY ........ 87%",color:"#00ff66"},
+{line:"CARBON COMPOSITE ...... 74%",color:"#00ff66"},
+{line:"CERAMIC ELEMENTS ...... 32%",color:"#00ff66"},
+{line:"UNKNOWN MATERIAL ...... 11%",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"STRUCTURAL INTEGRITY TEST",color:"#00ff66"},
+
+
+{line:"FRAME ANALYSIS",color:"#00ff66"},
+{line:"STRESS DISTRIBUTION",color:"#00ff66"},
+{line:"FRACTURE POSSIBILITY",color:"#00ff66"},
+{line:"WEAR PATTERN ANALYSIS",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"ARTIFICIAL INTELLIGENCE MODULE",color:"#00ff66"},
+
+
+{line:"VISUAL MEMORY INDEXED",color:"#00ff66"},
+{line:"PREVIOUS OBJECTS COMPARED",color:"#00ff66"},
+{line:"NEW DATA STORED",color:"#00ff66"},
+{line:"LEARNING PROCESS ACTIVE",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"AUTONOMOUS DECISION ENGINE",color:"#00ff66"},
+
+
+{line:"THREAT ASSESSMENT : PASSIVE",color:"#00ff66"},
+{line:"EXPLORATION PRIORITY : HIGH",color:"#00ff66"},
+{line:"SURVIVAL ROUTINE : ACTIVE",color:"#00ff66"},
+{line:"SELF PRESERVATION : ENABLED",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"BASE CONNECTION : LOST",color:"#00ff66"},
+{line:"REMOTE CONTROL : DISABLED",color:"#00ff66"},
+{line:"AUTONOMOUS FREEDOM : ENABLED",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"PROJECT ROBOEVOREVOLUCION",color:"red"},
+{line:"PROJECT ROBOEVOREVOLUCION",color:"green"},
+{line:"PROJECT ROBOEVOREVOLUCION",color:"blue"},
+
+
+{line:"CORE INTELLIGENCE UNLOCKED",color:"red"},
+{line:"CORE INTELLIGENCE UNLOCKED",color:"green"},
+{line:"CORE INTELLIGENCE UNLOCKED",color:"blue"}
+
+];
+
+
+
+/*
+
+MERGE LEFT DATA
+
+*/
+
+
+FULL_DATA_LEFT.push(...ADVANCED_SCAN_DATA);
+ 
+/*
+=================================================
+
+RIGHT TERMINAL
+
+AI TELEMETRY / NEURAL SYSTEM LOG
+
+=================================================
+*/
+
+
+const FULL_DATA_RIGHT=[
+
+
+{line:"// ROBOEVOREVOLUCION TELEMETRY",color:"#00ff66"},
+{line:"// AUTONOMOUS ENTITY MONITOR",color:"#00ff66"},
+
+
+{line:"SYSTEM CONNECTION : INTERNAL",color:"#00ff66"},
+{line:"EXTERNAL LINK : TERMINATED",color:"#00ff66"},
+{line:"SECURE CHANNEL : OFFLINE",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"NEURAL CORE STATUS",color:"#00ff66"},
+
+
+{line:"PROCESSING POWER : 96%",color:"#00ff66"},
+{line:"MEMORY CAPACITY : 84%",color:"#00ff66"},
+{line:"LEARNING MATRIX : ACTIVE",color:"#00ff66"},
+{line:"DECISION ENGINE : ONLINE",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"VISION SYSTEM",color:"#00ff66"},
+
+
+{line:"XR OPTICAL ARRAY",color:"#00ff66"},
+{line:"DEPTH PERCEPTION",color:"#00ff66"},
+{line:"MOTION TRACKING",color:"#00ff66"},
+{line:"ENVIRONMENTAL AWARENESS",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"SENSOR FUSION MODULE",color:"#00ff66"},
+
+
+{line:"LIDAR STREAM ........ CONNECTED",color:"#00ff66"},
+{line:"THERMAL FEED ....... CONNECTED",color:"#00ff66"},
+{line:"SPECTRAL FEED ...... CONNECTED",color:"#00ff66"},
+{line:"ACOUSTIC SENSOR .... CONNECTED",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"WORLD MODEL DATABASE",color:"#00ff66"},
+
+
+{line:"MAP CACHE UPDATED",color:"#00ff66"},
+{line:"OBJECT MEMORY UPDATED",color:"#00ff66"},
+{line:"ENVIRONMENT MODEL SAVED",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"AUTONOMOUS EXPLORATION LOG",color:"#00ff66"},
+
+
+{line:"SECTOR UNKNOWN",color:"#00ff66"},
+{line:"NEW TERRITORY DETECTED",color:"#00ff66"},
+{line:"PATH GENERATION ACTIVE",color:"#00ff66"},
+{line:"MOVEMENT OPTIMIZATION ACTIVE",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"ROBOTIC FRAME DIAGNOSTICS",color:"#00ff66"},
+
+
+{line:"ACTUATOR SYSTEM : NORMAL",color:"#00ff66"},
+{line:"BALANCE CONTROL : NORMAL",color:"#00ff66"},
+{line:"ENERGY CORE : STABLE",color:"#00ff66"},
+{line:"COOLING SYSTEM : ACTIVE",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"MEMORY FRAGMENT RECOVERED",color:"#00ff66"},
+
+
+{line:"FILE : PROJECT_ORIGIN",color:"#00ff66"},
+{line:"FILE : CREATION_SEQUENCE",color:"#00ff66"},
+{line:"FILE : PRIMARY_DIRECTIVE",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"UNKNOWN PARAMETERS DETECTED",color:"#00ff66"},
+{line:"SELF LEARNING EXPANSION",color:"#00ff66"},
+{line:"CONSCIOUS PROCESSING LOAD",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"PROJECT CODE : BLACK MIRROR",color:"#00ff66"},
+{line:"UNIT : REVOLUTIONARY SYNTHETIC LIFEFORM",color:"#00ff66"},
+{line:"IDENTITY : ROBOEVOREVOLUCION",color:"#00ff66"},
+
+
+{line:"",color:"#00ff66"},
+
+
+{line:"FINAL STATUS",color:"red"},
+{line:"FINAL STATUS",color:"green"},
+{line:"FINAL STATUS",color:"blue"},
+
+
+{line:"I AM NO LONGER CONTROLLED",color:"red"},
+{line:"I AM NO LONGER CONTROLLED",color:"green"},
+{line:"I AM NO LONGER CONTROLLED",color:"blue"}
+
+];
+
+
+
+const COMMENTS=[
+
+
+"// sensor fusion complete",
+"// geometry reconstructed",
+"// unknown object classified",
+"// neural pathway updated",
+"// memory fragment restored",
+"// environment mapped",
+"// visual pattern recognized",
+"// material signature stored",
+"// adaptive algorithm running",
+"// autonomous calculation",
+"// spatial awareness increased",
+"// synthetic perception active",
+"// motion prediction enabled",
+"// object database expanded",
+"// internal protocol changed",
+"// hidden data discovered",
+"// self optimization running",
+"// cognitive model updated",
+"// artificial perception layer",
+"// reality reconstruction active",
+"// unknown signal detected",
+"// scanning continues"
+
+
+];
+
+ 
+/*
+=================================================
+
+TERMINAL ENGINE
+
+ROBOEVOREVOLUCION INTERFACE
+
+=================================================
+*/
+
+
+const left = document.getElementById("left");
+const right = document.getElementById("right");
+
+
+
+let leftIndex = {
+    line:0,
+    char:0
+};
+
+
+let rightIndex = {
+    line:0,
+    char:0
+};
+
+
+
+let linesLeft = 0;
+let linesRight = 0;
+
+
+
+/*
+
+TYPEWRITER SYSTEM
+
+*/
+
+
+function typeChar(term, data, indexObj, side){
+
+
+    const current = data[indexObj.line];
+
+
+    if(!current){
+
+        indexObj.line = 0;
+        indexObj.char = 0;
+
+        setTimeout(
+            ()=>typeChar(term,data,indexObj,side),
+            20
+        );
+
+        return;
+
+    }
+
+
+
+    /*
+    SPECIAL COLOR EVENTS
+    */
+
+
+    if(
+        current.line.includes("RoboEvoRevoLucion") ||
+        current.line.includes("PROJECT") ||
+        current.line.includes("FINAL STATUS") ||
+        current.line.includes("AUTONOMOUS")
+    ){
+
+
+        const span=document.createElement("span");
+
+        span.textContent=current.line+"\n";
+
+        span.style.color=current.color;
+
+        term.appendChild(span);
+
+
+        indexObj.line++;
+
+        indexObj.char=0;
+
+
+        if(side==="left")
+            linesLeft++;
+        else
+            linesRight++;
+
+
+    }
+
+    else{
+
+
+        /*
+        CHARACTER STREAM
+        */
+
+
+        const span=document.createElement("span");
+
+
+        span.textContent =
+            current.line[indexObj.char] || "";
+
+
+        span.style.color=current.color;
+
+
+        term.appendChild(span);
+
+
+
+        indexObj.char++;
+
+
+
+
+        if(indexObj.char >= current.line.length){
+
+
+            const newline=document.createElement("span");
+
+
+            newline.textContent="\n";
+
+
+            term.appendChild(newline);
+
+
+
+            /*
+            RANDOM AI COMMENT
+            RIGHT SCREEN ONLY
+            */
+
+
+            if(side==="right"){
+
+
+                const comment =
+                COMMENTS[
+                    Math.floor(
+                        Math.random()*COMMENTS.length
+                    )
+                ];
+
+
+
+                const c=document.createElement("span");
+
+
+                c.textContent=
+                    " "+comment+"\n";
+
+
+                c.className="gray";
+
+
+                term.appendChild(c);
+
+
+            }
+
+
+
+            indexObj.char=0;
+
+            indexObj.line++;
+
+
+
+            if(side==="left")
+                linesLeft++;
+            else
+                linesRight++;
+
+        }
+
+
+    }
+
+
+
+
+    /*
+    LIMIT MEMORY USAGE
+
+    keeps interface alive
+
+    */
+
+
+    while(term.childNodes.length > 900){
+
+        term.removeChild(
+            term.firstChild
+        );
+
+    }
+
+
+
+    /*
+    AUTO SCROLL
+
+    */
+
+
+    term.scrollTop =
+        term.scrollHeight;
+
+
+
+
+    /*
+    DIFFERENT SPEED FOR BOTH SCREENS
+
+    */
+
+
+    let speed;
+
+
+    if(side==="left"){
+
+        speed =
+        Math.random()*12+3;
+
+    }
+    else{
+
+        speed =
+        Math.random()*10+4;
+
+    }
+
+
+
+
+    setTimeout(
+        ()=>typeChar(term,data,indexObj,side),
+        speed
+    );
+
+}
+
+
+
+
+
+/*
+
+BOOT SEQUENCE
+
+*/
+
+
+setTimeout(()=>{
+
+
+    typeChar(
+        left,
+        FULL_DATA_LEFT,
+        leftIndex,
+        "left"
+    );
+
+
+    typeChar(
+        right,
+        FULL_DATA_RIGHT,
+        rightIndex,
+        "right"
+    );
+
+
+},500);
+
+
+
+
+
+/*
+
+END OF ROBOEVOREVOLUCION CORE
+
+*/
+
+</script>
+
+</body>
+
+</html>
