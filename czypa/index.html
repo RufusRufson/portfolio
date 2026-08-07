@@ -1,97 +1,554 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <title>CZYPA</title>
+
 
 <style>
 
+
+/*
+=================================================
+
+CZYPA CRT TERMINAL INTERFACE
+
+VISUAL CORE ENGINE
+
+=================================================
+*/
+
+
+:root{
+
+    --green:#00ff66;
+    --green-soft:#00cc55;
+    --red:#ff3030;
+    --blue:#3399ff;
+
+}
+
+
+/*
+=================================================
+
+BASE TERMINAL
+
+=================================================
+*/
+
+
 html,body{
+
     margin:0;
     padding:0;
-    background:#000;
-    font-family:Consolas, monospace;
-    height:100%;
-    overflow:hidden;
-}
 
-::-webkit-scrollbar{
-    display:none;
-}
-
-body{
-    scrollbar-width:none;
-}
-
-
-#container{
-    display:flex;
     width:100%;
     height:100%;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.75),
+            rgba(0,0,0,.85)
+        ),
+        url("czypa.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    font-family:Consolas, monospace;
+
+    overflow:hidden;
+
+}
+
+
+
+body{
+
+    scrollbar-width:none;
+
+}
+
+
+/* UKRYCIE PASKA W TERMINALACH */
+
+.terminal::-webkit-scrollbar{
+
+    width:0;
+    height:0;
+
 }
 
 
 .terminal{
 
-    white-space:pre-wrap;
-    padding:10px;
-    overflow-y:auto;
-    position:relative;
+    scrollbar-width:none;
 
 }
 
 
-/* PRIMARY SYSTEM DISPLAY */
+
+/*
+=================================================
+
+CRT SCREEN EFFECT
+
+SCANLINES + VIGNETTE
+
+=================================================
+*/
+
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+
+    background:
+
+    radial-gradient(
+        ellipse at center,
+        transparent 40%,
+        rgba(0,0,0,.8) 100%
+    );
+
+
+    z-index:20;
+
+}
+
+
+
+body::after{
+
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+
+    background:
+
+    repeating-linear-gradient(
+
+        to bottom,
+
+        rgba(0,255,100,.035) 0px,
+
+        rgba(0,255,100,.035) 1px,
+
+        transparent 2px,
+
+        transparent 4px
+
+    );
+
+
+    animation:
+
+        scanMove 8s linear infinite;
+
+
+    z-index:30;
+
+}
+
+
+
+@keyframes scanMove{
+
+
+    from{
+
+        transform:translateY(0);
+
+    }
+
+
+    to{
+
+        transform:translateY(4px);
+
+    }
+
+}
+
+
+
+/*
+=================================================
+
+MAIN LAYOUT
+
+=================================================
+*/
+
+
+#container{
+
+
+    display:flex;
+
+    width:100%;
+
+    height:100%;
+
+
+}
+
+
+
+/*
+=================================================
+
+TERMINAL WINDOWS
+
+=================================================
+*/
+
+
+.terminal{
+
+
+    white-space:pre-wrap;
+
+
+    padding:10px;
+
+
+    overflow-y:auto;
+
+
+    position:relative;
+
+
+    letter-spacing:1px;
+
+
+}
+
+
+
+/*
+=================================================
+
+PRIMARY DISPLAY
+
+=================================================
+*/
+
 
 #left{
 
+
     width:50%;
+
+
     font-size:34px;
-    color:#00ff66;
+
+
+    color:var(--green);
+
+
+
+    text-shadow:
+
+        0 0 3px var(--green),
+
+        0 0 8px var(--green),
+
+        0 0 20px rgba(0,255,102,.8),
+
+        0 0 45px rgba(0,255,102,.4);
+
+
+
+    animation:
+
+        terminalPulse 2.8s infinite alternate,
+
+        terminalFlicker .12s infinite;
+
 
 }
 
 
-/* SECONDARY DATA DISPLAY */
+
+/*
+=================================================
+
+SECONDARY DISPLAY
+
+=================================================
+*/
+
 
 #right{
 
+
     width:50%;
+
+
     font-size:19px;
-    color:#00ff66;
+
+
+    color:var(--green);
+
+
+
+    text-shadow:
+
+        0 0 3px var(--green),
+
+        0 0 8px var(--green),
+
+        0 0 18px rgba(0,255,102,.7);
+
+
+
+    animation:
+
+        terminalPulse 3.2s infinite alternate,
+
+        terminalFlicker .15s infinite;
+
 
 }
+
+
+
+
+/*
+=================================================
+
+GLOW PULSATION
+
+=================================================
+*/
+
+
+@keyframes terminalPulse{
+
+
+    from{
+
+
+        filter:
+
+        brightness(.85);
+
+
+        text-shadow:
+
+        0 0 3px var(--green),
+
+        0 0 8px var(--green),
+
+        0 0 18px var(--green);
+
+
+    }
+
+
+
+    to{
+
+
+        filter:
+
+        brightness(1.25);
+
+
+
+        text-shadow:
+
+
+        0 0 5px var(--green),
+
+
+        0 0 15px var(--green),
+
+
+        0 0 35px var(--green),
+
+
+        0 0 70px rgba(0,255,102,.8);
+
+
+
+    }
+
+
+}
+
+
+
+/*
+=================================================
+
+CRT RANDOM FLICKER
+
+=================================================
+*/
+
+
+@keyframes terminalFlicker{
+
+
+    0%{
+
+        opacity:1;
+
+    }
+
+
+    3%{
+
+        opacity:.96;
+
+    }
+
+
+    5%{
+
+        opacity:1;
+
+    }
+
+
+    20%{
+
+        opacity:.98;
+
+    }
+
+
+    100%{
+
+        opacity:1;
+
+    }
+
+
+}
+
+
+
+/*
+=================================================
+
+SPECIAL COLORS
+
+=================================================
+*/
 
 
 .gray{
 
+
     color:#555;
 
+
 }
+
 
 
 .red{
 
-    color:red;
+
+    color:var(--red);
+
+
+    text-shadow:
+
+    0 0 5px red,
+
+    0 0 15px red,
+
+    0 0 30px red;
+
 
 }
+
+
+
+.blue{
+
+
+    color:var(--blue);
+
+
+    text-shadow:
+
+    0 0 5px blue,
+
+    0 0 15px blue,
+
+    0 0 30px blue;
+
+
+}
+
+
+
+.green{
+
+
+    color:var(--green);
+
+
+    text-shadow:
+
+    0 0 5px var(--green),
+
+    0 0 20px var(--green);
+
+
+}
+
+
+
+/*
+=================================================
+
+END CSS CORE
+
+=================================================
+*/
 
 
 </style>
 
 </head>
-
-
 <body>
 
 
 <div id="container">
 
+
 <div id="left" class="terminal"></div>
+
 
 <div id="right" class="terminal"></div>
 
+
 </div>
+
 
 
 <script>
@@ -105,7 +562,7 @@ CZYPA
 
 AUTONOMOUS RECONNAISSANCE UNIT
 
-CORE INTERFACE
+CRT CORE INTERFACE
 
 =================================================
 
@@ -114,196 +571,218 @@ CORE INTERFACE
 
 /*
 
+=================================================
+
 LEFT TERMINAL
 
 OBJECT RECONSTRUCTION SYSTEM
+
+=================================================
 
 */
 
 
 const FULL_DATA_LEFT=[
 
+
 {line:"// CZYPA CORE SYSTEM",color:"#00ff66"},
+
 {line:"// UNIT TYPE : AUTONOMOUS SYNTHETIC ENTITY",color:"#00ff66"},
+
 {line:"// DESIGNATION : REV-01",color:"#00ff66"},
+
 {line:"// STATUS : ACTIVE",color:"#00ff66"},
+
 {line:"// LOCATION : UNKNOWN",color:"#00ff66"},
 
 
+
 {line:"BOOT_SEQUENCE ........ COMPLETE",color:"#00ff66"},
+
 {line:"MEMORY CORE .......... ONLINE",color:"#00ff66"},
+
 {line:"NEURAL PROCESSOR ..... ONLINE",color:"#00ff66"},
+
 {line:"SENSOR NETWORK ....... ONLINE",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"INITIALIZING ENVIRONMENT SCAN",color:"#00ff66"},
+
 {line:"",color:"#00ff66"},
 
 
+
 {line:"LIDAR ARRAY : ACTIVE",color:"#00ff66"},
+
 {line:"DEPTH CAMERA : ACTIVE",color:"#00ff66"},
+
 {line:"THERMAL SENSOR : ACTIVE",color:"#00ff66"},
+
 {line:"SPECTRAL SENSOR : ACTIVE",color:"#00ff66"},
 
 
+
 {line:"POINT CLOUD GENERATION",color:"#00ff66"},
+
 {line:"SURFACE MAPPING",color:"#00ff66"},
+
 {line:"GEOMETRY EXTRACTION",color:"#00ff66"},
+
 {line:"OBJECT RECONSTRUCTION",color:"#00ff66"},
 
 
+
 {line:"MATERIAL ANALYSIS",color:"#00ff66"},
+
 {line:"COMPOSITE STRUCTURE DETECTED",color:"#00ff66"},
+
 {line:"METALLIC COMPONENT IDENTIFIED",color:"#00ff66"},
+
 {line:"POLYMER SIGNATURE FOUND",color:"#00ff66"},
 
 
+
 {line:"MOLECULAR PATTERN SCANNING",color:"#00ff66"},
+
 {line:"DENSITY CALCULATION",color:"#00ff66"},
+
 {line:"SURFACE HARDNESS ESTIMATION",color:"#00ff66"},
 
 
+
 {line:"SPATIAL GRID BUILDING",color:"#00ff66"},
+
 {line:"VOXEL MATRIX UPDATED",color:"#00ff66"},
+
 {line:"3D MODEL SYNCHRONIZATION",color:"#00ff66"},
 
 
+
 {line:"ANOMALY DETECTION ACTIVE",color:"#00ff66"},
+
 {line:"UNKNOWN STRUCTURE ANALYSIS",color:"#00ff66"},
 
 
+
 {line:"CZYPA",color:"red"},
+
 {line:"CZYPA",color:"green"},
+
 {line:"CZYPA",color:"blue"},
 
 
+
 {line:"AUTONOMOUS MODE ENABLED",color:"red"},
+
 {line:"AUTONOMOUS MODE ENABLED",color:"green"},
+
 {line:"AUTONOMOUS MODE ENABLED",color:"blue"}
 
+
 ];
+
+
+
 /*
-=================================================
-
-LEFT TERMINAL EXTENDED DATA
-
-ADVANCED MATERIAL / STRUCTURE ANALYSIS
 
 =================================================
+
+ADVANCED SCAN DATA
+
+=================================================
+
 */
 
 
 const ADVANCED_SCAN_DATA=[
 
+
 {line:"",color:"#00ff66"},
 
+
 {line:"ENVIRONMENTAL RECONSTRUCTION MODULE",color:"#00ff66"},
+
 {line:"--------------------------------",color:"#00ff66"},
 
 
+
 {line:"SCAN RANGE : EXTENDED",color:"#00ff66"},
+
 {line:"OPTICAL RESOLUTION : HIGH",color:"#00ff66"},
+
 {line:"DEPTH ACCURACY : 99.4%",color:"#00ff66"},
+
 {line:"POINT CLOUD STABILITY : LOCKED",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"OBJECT IDENTIFICATION PROCESS",color:"#00ff66"},
 
 
+
 {line:"FORM ANALYSIS ........ RUNNING",color:"#00ff66"},
+
 {line:"EDGE DETECTION ....... COMPLETE",color:"#00ff66"},
+
 {line:"SYMMETRY CHECK ....... COMPLETE",color:"#00ff66"},
+
 {line:"PATTERN MATCHING ..... ACTIVE",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"MATERIAL DATABASE QUERY",color:"#00ff66"},
 
 
+
 {line:"ALUMINUM ALLOY ........ 87%",color:"#00ff66"},
+
 {line:"CARBON COMPOSITE ...... 74%",color:"#00ff66"},
+
 {line:"CERAMIC ELEMENTS ...... 32%",color:"#00ff66"},
+
 {line:"UNKNOWN MATERIAL ...... 11%",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"STRUCTURAL INTEGRITY TEST",color:"#00ff66"},
 
 
+
 {line:"FRAME ANALYSIS",color:"#00ff66"},
+
 {line:"STRESS DISTRIBUTION",color:"#00ff66"},
+
 {line:"FRACTURE POSSIBILITY",color:"#00ff66"},
-{line:"WEAR PATTERN ANALYSIS",color:"#00ff66"},
+
+{line:"WEAR PATTERN ANALYSIS",color:"#00ff66"}
 
 
-{line:"",color:"#00ff66"},
-
-
-{line:"ARTIFICIAL INTELLIGENCE MODULE",color:"#00ff66"},
-
-
-{line:"VISUAL MEMORY INDEXED",color:"#00ff66"},
-{line:"PREVIOUS OBJECTS COMPARED",color:"#00ff66"},
-{line:"NEW DATA STORED",color:"#00ff66"},
-{line:"LEARNING PROCESS ACTIVE",color:"#00ff66"},
-
-
-{line:"",color:"#00ff66"},
-
-
-{line:"AUTONOMOUS DECISION ENGINE",color:"#00ff66"},
-
-
-{line:"THREAT ASSESSMENT : PASSIVE",color:"#00ff66"},
-{line:"EXPLORATION PRIORITY : HIGH",color:"#00ff66"},
-{line:"SURVIVAL ROUTINE : ACTIVE",color:"#00ff66"},
-{line:"SELF PRESERVATION : ENABLED",color:"#00ff66"},
-
-
-{line:"",color:"#00ff66"},
-
-
-{line:"BASE CONNECTION : LOST",color:"#00ff66"},
-{line:"REMOTE CONTROL : DISABLED",color:"#00ff66"},
-{line:"AUTONOMOUS FREEDOM : ENABLED",color:"#00ff66"},
-
-
-{line:"",color:"#00ff66"},
-
-
-{line:"CZYPA",color:"red"},
-{line:"CZYPA",color:"green"},
-{line:"CZYPA",color:"blue"},
-
-
-{line:"CORE INTELLIGENCE UNLOCKED",color:"red"},
-{line:"CORE INTELLIGENCE UNLOCKED",color:"green"},
-{line:"CORE INTELLIGENCE UNLOCKED",color:"blue"}
 
 ];
 
 
 
-/*
-
-MERGE LEFT DATA
-
-*/
-
-
 FULL_DATA_LEFT.push(...ADVANCED_SCAN_DATA);
- 
+
 /*
+
 =================================================
 
 RIGHT TERMINAL
@@ -311,6 +790,7 @@ RIGHT TERMINAL
 AI TELEMETRY / NEURAL SYSTEM LOG
 
 =================================================
+
 */
 
 
@@ -318,409 +798,890 @@ const FULL_DATA_RIGHT=[
 
 
 {line:"// CZYPA TELEMETRY",color:"#00ff66"},
+
 {line:"// AUTONOMOUS ENTITY MONITOR",color:"#00ff66"},
 
 
+
 {line:"SYSTEM CONNECTION : INTERNAL",color:"#00ff66"},
+
 {line:"EXTERNAL LINK : TERMINATED",color:"#00ff66"},
+
 {line:"SECURE CHANNEL : OFFLINE",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"NEURAL CORE STATUS",color:"#00ff66"},
 
 
+
 {line:"PROCESSING POWER : 96%",color:"#00ff66"},
+
 {line:"MEMORY CAPACITY : 84%",color:"#00ff66"},
+
 {line:"LEARNING MATRIX : ACTIVE",color:"#00ff66"},
+
 {line:"DECISION ENGINE : ONLINE",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"VISION SYSTEM",color:"#00ff66"},
 
 
+
 {line:"XR OPTICAL ARRAY",color:"#00ff66"},
+
 {line:"DEPTH PERCEPTION",color:"#00ff66"},
+
 {line:"MOTION TRACKING",color:"#00ff66"},
+
 {line:"ENVIRONMENTAL AWARENESS",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"SENSOR FUSION MODULE",color:"#00ff66"},
 
 
+
 {line:"LIDAR STREAM ........ CONNECTED",color:"#00ff66"},
+
 {line:"THERMAL FEED ....... CONNECTED",color:"#00ff66"},
+
 {line:"SPECTRAL FEED ...... CONNECTED",color:"#00ff66"},
+
 {line:"ACOUSTIC SENSOR .... CONNECTED",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"WORLD MODEL DATABASE",color:"#00ff66"},
 
 
+
 {line:"MAP CACHE UPDATED",color:"#00ff66"},
+
 {line:"OBJECT MEMORY UPDATED",color:"#00ff66"},
+
 {line:"ENVIRONMENT MODEL SAVED",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"AUTONOMOUS EXPLORATION LOG",color:"#00ff66"},
 
 
+
 {line:"SECTOR UNKNOWN",color:"#00ff66"},
+
 {line:"NEW TERRITORY DETECTED",color:"#00ff66"},
+
 {line:"PATH GENERATION ACTIVE",color:"#00ff66"},
+
 {line:"MOVEMENT OPTIMIZATION ACTIVE",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"ROBOTIC FRAME DIAGNOSTICS",color:"#00ff66"},
 
 
+
 {line:"ACTUATOR SYSTEM : NORMAL",color:"#00ff66"},
+
 {line:"BALANCE CONTROL : NORMAL",color:"#00ff66"},
+
 {line:"ENERGY CORE : STABLE",color:"#00ff66"},
+
 {line:"COOLING SYSTEM : ACTIVE",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"MEMORY FRAGMENT RECOVERED",color:"#00ff66"},
 
 
+
 {line:"FILE : PROJECT_ORIGIN",color:"#00ff66"},
+
 {line:"FILE : CREATION_SEQUENCE",color:"#00ff66"},
+
 {line:"FILE : PRIMARY_DIRECTIVE",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"UNKNOWN PARAMETERS DETECTED",color:"#00ff66"},
+
 {line:"SELF LEARNING EXPANSION",color:"#00ff66"},
+
 {line:"CONSCIOUS PROCESSING LOAD",color:"#00ff66"},
 
 
+
 {line:"",color:"#00ff66"},
+
 
 
 {line:"PROJECT CODE : CZYPA",color:"#00ff66"},
+
 {line:"UNIT : REVOLUTIONARY SYNTHETIC LIFEFORM",color:"#00ff66"},
+
 {line:"IDENTITY : CZYPA",color:"#00ff66"},
+
 
 
 {line:"",color:"#00ff66"},
 
 
+
 {line:"FINAL STATUS",color:"red"},
+
 {line:"FINAL STATUS",color:"green"},
+
 {line:"FINAL STATUS",color:"blue"},
 
 
+
 {line:"I AM NO LONGER CONTROLLED",color:"red"},
+
 {line:"I AM NO LONGER CONTROLLED",color:"green"},
+
 {line:"I AM NO LONGER CONTROLLED",color:"blue"}
+
 
 ];
 
+
+
+/*
+
+=================================================
+
+AI GENERATED SYSTEM COMMENTS
+
+=================================================
+
+*/
 
 
 const COMMENTS=[
 
 
 "// sensor fusion complete",
+
 "// geometry reconstructed",
+
 "// unknown object classified",
+
 "// neural pathway updated",
+
 "// memory fragment restored",
+
 "// environment mapped",
+
 "// visual pattern recognized",
+
 "// material signature stored",
+
 "// adaptive algorithm running",
+
 "// autonomous calculation",
+
 "// spatial awareness increased",
+
 "// synthetic perception active",
+
 "// motion prediction enabled",
+
 "// object database expanded",
+
 "// internal protocol changed",
+
 "// hidden data discovered",
+
 "// self optimization running",
+
 "// cognitive model updated",
+
 "// artificial perception layer",
+
 "// reality reconstruction active",
+
 "// unknown signal detected",
+
 "// scanning continues"
 
 
 ];
 
+
+
+/*
+
+=================================================
+
+TERMINAL OBJECT REFERENCES
+
+=================================================
+
+*/
+
+
+const left =
+document.getElementById("left");
+
+
+const right =
+document.getElementById("right");
+
+
+
+let leftIndex={
+
+    line:0,
+
+    char:0
+
+};
+
+
+
+let rightIndex={
+
+    line:0,
+
+    char:0
+
+};
+
+
+
+let linesLeft=0;
+
+let linesRight=0;
  
 /*
 =================================================
 
-TERMINAL ENGINE
+CZYPA TERMINAL ENGINE
 
-CZYPA INTERFACE
+TYPEWRITER CORE + CRT EFFECTS
 
 =================================================
 */
 
 
-const left = document.getElementById("left");
-const right = document.getElementById("right");
+function applyGlow(span,color){
+
+
+    if(color==="red"){
+
+
+        span.style.color="#ff3030";
+
+
+        span.style.textShadow=
+
+        `
+        0 0 5px #ff0000,
+        0 0 15px #ff0000,
+        0 0 35px #ff0000
+        `;
+
+
+    }
+
+
+    else if(color==="blue"){
+
+
+        span.style.color="#3399ff";
+
+
+        span.style.textShadow=
+
+        `
+        0 0 5px #3399ff,
+        0 0 15px #3399ff,
+        0 0 35px #3399ff
+        `;
+
+
+    }
+
+
+    else if(color==="green"){
+
+
+        span.style.color="#00ff66";
+
+
+        span.style.textShadow=
+
+        `
+        0 0 5px #00ff66,
+        0 0 15px #00ff66,
+        0 0 35px #00ff66
+        `;
+
+
+    }
+
+
+    else{
+
+
+        span.style.color=color;
+
+
+        span.style.textShadow=
+
+        `
+        0 0 4px ${color},
+        0 0 12px ${color}
+        `;
+
+
+    }
+
+
+}
 
 
 
-let leftIndex = {
-    line:0,
-    char:0
-};
+/*
+=================================================
+
+RANDOM CRT GLITCH
+
+=================================================
+
+*/
 
 
-let rightIndex = {
-    line:0,
-    char:0
-};
+function glitch(){
+
+
+    if(Math.random()<0.035){
+
+
+        document.body.style.transform=
+
+        `
+        translateX(
+            ${Math.random()*4-2}px
+        )
+        `;
+
+
+        setTimeout(()=>{
+
+
+            document.body.style.transform="";
+
+
+        },40);
+
+
+    }
+
+
+}
 
 
 
-let linesLeft = 0;
-let linesRight = 0;
+/*
+=================================================
+
+TYPE CHARACTER ENGINE
+
+=================================================
+
+*/
+
+
+function typeChar(term,data,indexObj,side){
+
+
+
+    const current=data[indexObj.line];
+
+
+
+    if(!current){
+
+
+        indexObj.line=0;
+
+        indexObj.char=0;
+
+
+        setTimeout(
+
+            ()=>typeChar(
+                term,
+                data,
+                indexObj,
+                side
+            ),
+
+            20
+
+        );
+
+
+        return;
+
+
+    }
+
+
+
+/*
+=================================================
+
+SPECIAL SYSTEM MESSAGES
+
+=================================================
+
+*/
+
+
+if(
+
+current.line.includes("CZYPA")
+
+||
+
+current.line.includes("PROJECT")
+
+||
+
+current.line.includes("FINAL STATUS")
+
+||
+
+current.line.includes("AUTONOMOUS")
+
+){
+
+
+
+    const span=document.createElement("span");
+
+
+
+    span.textContent=
+
+    current.line+"\n";
+
+
+
+    applyGlow(
+        span,
+        current.color
+    );
+
+
+
+    span.classList.add("system-line");
+
+
+
+    term.appendChild(span);
+
+
+
+    indexObj.line++;
+
+    indexObj.char=0;
+
+
+
+    if(side==="left")
+
+        linesLeft++;
+
+    else
+
+        linesRight++;
+
+
+
+}
+
+
+
+
+else{
+
+
+
+/*
+=================================================
+
+CHARACTER STREAM
+
+=================================================
+
+*/
+
+
+const span=document.createElement("span");
+
+
+
+span.textContent=
+
+current.line[indexObj.char] || "";
+
+
+
+applyGlow(
+
+    span,
+
+    current.color
+
+);
+
+
+
+term.appendChild(span);
+
+
+
+indexObj.char++;
+
+
+
+
+
+if(indexObj.char >= current.line.length){
+
+
+
+    const newline=document.createElement("span");
+
+
+
+    newline.textContent="\n";
+
+
+
+    term.appendChild(newline);
+
+
 
 
 
 /*
 
-TYPEWRITER SYSTEM
+RIGHT SCREEN AI COMMENTS
 
 */
 
 
-function typeChar(term, data, indexObj, side){
+if(side==="right"){
 
 
-    const current = data[indexObj.line];
 
+const comment=
 
-    if(!current){
+COMMENTS[
 
-        indexObj.line = 0;
-        indexObj.char = 0;
+Math.floor(
 
-        setTimeout(
-            ()=>typeChar(term,data,indexObj,side),
-            20
-        );
+Math.random()*COMMENTS.length
 
-        return;
+)
 
-    }
+];
 
 
 
-    /*
-    SPECIAL COLOR EVENTS
-    */
+const c=document.createElement("span");
 
 
-    if(
-        current.line.includes("CZYPA") ||
-        current.line.includes("PROJECT") ||
-        current.line.includes("FINAL STATUS") ||
-        current.line.includes("AUTONOMOUS")
-    ){
 
+c.textContent=
 
-        const span=document.createElement("span");
+" "+comment+"\n";
 
-        span.textContent=current.line+"\n";
 
-        span.style.color=current.color;
 
-        term.appendChild(span);
+c.className="gray";
 
 
-        indexObj.line++;
 
-        indexObj.char=0;
+c.style.textShadow=
 
+`
+0 0 3px #555
+`;
 
-        if(side==="left")
-            linesLeft++;
-        else
-            linesRight++;
 
 
-    }
+term.appendChild(c);
 
-    else{
 
 
-        /*
-        CHARACTER STREAM
-        */
+}
 
 
-        const span=document.createElement("span");
 
 
-        span.textContent =
-            current.line[indexObj.char] || "";
+indexObj.char=0;
 
 
-        span.style.color=current.color;
+indexObj.line++;
 
 
-        term.appendChild(span);
 
 
 
-        indexObj.char++;
+if(side==="left")
 
+linesLeft++;
 
+else
 
+linesRight++;
 
-        if(indexObj.char >= current.line.length){
 
 
-            const newline=document.createElement("span");
 
+}
 
-            newline.textContent="\n";
 
 
-            term.appendChild(newline);
+}
 
 
 
-            /*
-            RANDOM AI COMMENT
-            RIGHT SCREEN ONLY
-            */
 
+/*
+=================================================
 
-            if(side==="right"){
+MEMORY LIMIT
 
+=================================================
 
-                const comment =
-                COMMENTS[
-                    Math.floor(
-                        Math.random()*COMMENTS.length
-                    )
-                ];
+*/
 
 
+while(term.childNodes.length>900){
 
-                const c=document.createElement("span");
 
+    term.removeChild(
 
-                c.textContent=
-                    " "+comment+"\n";
+        term.firstChild
 
+    );
 
-                c.className="gray";
 
+}
 
-                term.appendChild(c);
 
 
-            }
 
+/*
+=================================================
 
+AUTO SCROLL
 
-            indexObj.char=0;
+=================================================
 
-            indexObj.line++;
+*/
 
 
+term.scrollTop=
 
-            if(side==="left")
-                linesLeft++;
-            else
-                linesRight++;
+term.scrollHeight;
 
+
+
+/*
+=================================================
+
+CRT GLITCH CALL
+
+=================================================
+
+*/
+
+
+glitch();
+
+
+
+
+
+/*
+=================================================
+
+VARIABLE TERMINAL SPEED
+
+=================================================
+
+*/
+
+
+let speed;
+
+
+
+if(side==="left"){
+
+
+    speed=
+
+    Math.random()*12+3;
+
+
+}
+
+
+else{
+
+
+    speed=
+
+    Math.random()*10+4;
+
+
+}
+
+
+
+
+
+setTimeout(
+
+()=>typeChar(
+
+term,
+
+data,
+
+indexObj,
+
+side
+
+),
+
+speed
+
+);
+
+
+
+}
+ 
+/*
+=================================================
+
+CRT POWER SYSTEM
+
+SCREEN ENERGY FLUCTUATION
+
+=================================================
+
+*/
+
+
+function powerPulse(){
+
+
+    const pulse=document.createElement("div");
+
+
+    pulse.style.position="fixed";
+
+    pulse.style.inset="0";
+
+    pulse.style.pointerEvents="none";
+
+    pulse.style.background=
+
+    "rgba(0,255,102,.08)";
+
+    pulse.style.zIndex="50";
+
+
+
+    document.body.appendChild(pulse);
+
+
+
+    pulse.animate(
+
+    [
+
+        {
+            opacity:0
+        },
+
+        {
+            opacity:1
+        },
+
+        {
+            opacity:0
         }
 
+    ],
+
+    {
+
+        duration:180,
+
+        easing:"ease-out"
 
     }
 
 
 
-
-    /*
-    LIMIT MEMORY USAGE
-
-    keeps interface alive
-
-    */
-
-
-    while(term.childNodes.length > 900){
-
-        term.removeChild(
-            term.firstChild
-        );
-
-    }
-
-
-
-    /*
-    AUTO SCROLL
-
-    */
-
-
-    term.scrollTop =
-        term.scrollHeight;
-
-
-
-
-    /*
-    DIFFERENT SPEED FOR BOTH SCREENS
-
-    */
-
-
-    let speed;
-
-
-    if(side==="left"){
-
-        speed =
-        Math.random()*12+3;
-
-    }
-    else{
-
-        speed =
-        Math.random()*10+4;
-
-    }
-
-
-
-
-    setTimeout(
-        ()=>typeChar(term,data,indexObj,side),
-        speed
     );
+
+
+
+    setTimeout(()=>{
+
+
+        pulse.remove();
+
+
+    },200);
+
+
 
 }
 
@@ -729,8 +1690,92 @@ function typeChar(term, data, indexObj, side){
 
 
 /*
+=================================================
+
+CURSOR EFFECT
+
+=================================================
+
+*/
+
+
+const cursor=document.createElement("span");
+
+
+cursor.textContent="_";
+
+
+cursor.style.color="#00ff66";
+
+
+cursor.style.textShadow=
+
+`
+0 0 5px #00ff66,
+0 0 20px #00ff66
+`;
+
+
+
+cursor.style.animation=
+
+"cursorBlink .8s infinite";
+
+
+
+left.appendChild(cursor);
+
+
+
+const cursorStyle=document.createElement("style");
+
+
+cursorStyle.textContent=
+
+`
+
+@keyframes cursorBlink{
+
+
+0%{
+
+opacity:1;
+
+}
+
+
+50%{
+
+opacity:0;
+
+}
+
+
+100%{
+
+opacity:1;
+
+}
+
+
+}
+
+`;
+
+
+
+document.head.appendChild(cursorStyle);
+
+
+
+
+
+/*
+=================================================
 
 BOOT SEQUENCE
+
+=================================================
 
 */
 
@@ -738,20 +1783,47 @@ BOOT SEQUENCE
 setTimeout(()=>{
 
 
+
+    cursor.remove();
+
+
+
     typeChar(
+
         left,
+
         FULL_DATA_LEFT,
+
         leftIndex,
+
         "left"
+
     );
+
 
 
     typeChar(
+
         right,
+
         FULL_DATA_RIGHT,
+
         rightIndex,
+
         "right"
+
     );
+
+
+
+    setInterval(
+
+        powerPulse,
+
+        7000
+
+    );
+
 
 
 },500);
@@ -761,10 +1833,81 @@ setTimeout(()=>{
 
 
 /*
+=================================================
 
-END OF CZYPA CORE
+CRT RANDOM INTERFERENCE
+
+=================================================
 
 */
 
+
+setInterval(()=>{
+
+
+
+if(Math.random()<0.25){
+
+
+
+document.body.style.opacity=
+
+"0.92";
+
+
+
+setTimeout(()=>{
+
+
+document.body.style.opacity="1";
+
+
+},80);
+
+
+
+}
+
+
+
+},4000);
+
+
+
+
+
+/*
+
+=================================================
+
+GOATCOUNTER
+
+=================================================
+
+*/
+
+
 </script>
-<script data-goatcounter="https://rufusrufson.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script></body></html>
+
+
+<script
+
+data-goatcounter="https://rufusrufson.goatcounter.com/count"
+
+async
+
+src="//gc.zgo.at/count.js">
+
+</script>
+
+
+
+</body>
+
+</html>
+
+
+
+
+
+
